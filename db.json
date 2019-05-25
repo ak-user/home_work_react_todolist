@@ -1,13 +1,59 @@
 {
-  "todos": [
+  "products": [
     {
-      "id": "Sat May 11 2019/0.9806490074681602",
-      "text": "buy milk",
-      "isDone": true
+      "id": "1",
+      "name": "some product1ss",
+      "description": "уцу"
     },
     {
-      "id": "Sat May 11 2019/0.47568709267878395",
-      "text": "go home",
+      "id": "2",
+      "name": "some product 2"
+    },
+    {
+      "name": "asdf",
+      "description": "asdf",
+      "id": "3uTjgdE"
+    },
+    {
+      "name": "asdf",
+      "description": "",
+      "id": "vTIB_kO"
+    },
+    {
+      "name": "kjhkj",
+      "description": "",
+      "id": "Xmp1G6K"
+    },
+    {
+      "name": "quip",
+      "description": "asdf",
+      "id": "PS_Nch6"
+    },
+    {
+      "name": "kjhkhkjhk",
+      "description": "1",
+      "id": "Hqm2I2C"
+    },
+    {
+      "name": "19:42",
+      "id": "fhCf8eO",
+      "description": "sdsdsdds"
+    },
+    {
+      "name": "ddddd",
+      "description": "ewewew",
+      "id": "CR5ZOVq"
+    }
+  ],
+  "todos": [
+    {
+      "id": "1557853735483-0.030937361110408235",
+      "text": "text",
+      "isDone": false
+    },
+    {
+      "id": "1557855573775-0.013173725628162103",
+      "text": "asdfasdfasdfasdfasdf",
       "isDone": false
     }
   ]

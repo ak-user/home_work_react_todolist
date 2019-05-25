@@ -1,11 +1,7 @@
-import axios from "axios";
 import { createSelector } from "reselect";
 
 const appName = "rr2";
 const moduleName = "todos";
-
-const BASE_URL = process.env.REACT_APP_SERVER_URL;
-console.log(process.env);
 
 /**
  * Constants
@@ -42,18 +38,18 @@ export const changeNewItemText = text => ({
   payload: text
 });
 
-export const deleteItem = itemId => async (dispatch, getState) => {
+export const deleteItem = itemId => async (dispatch, getState, { api }) => {
   dispatch({ type: DELETE_ITEM_REQUEST, payload: itemId });
 
   try {
-    await axios.delete(`${BASE_URL}/todos/${itemId}`);
+    await api.todos.deleteItem(itemId);
     dispatch({ type: DELETE_ITEM_SUCCESS, payload: itemId });
   } catch (error) {
     dispatch({ type: DELETE_ITEM_FAILURE, payload: error });
   }
 };
 
-export const addNewItem = () => async (dispatch, getState) => {
+export const addNewItem = () => async (dispatch, getState, { api }) => {
   const state = stateSelector(getState());
   const newItem = {
     id: getId(),
@@ -66,7 +62,7 @@ export const addNewItem = () => async (dispatch, getState) => {
   });
 
   try {
-    const { data } = await axios.post(`${BASE_URL}/todos`, newItem);
+    const data = await api.todos.create(newItem);
 
     dispatch({
       type: SAVE_ITEM_SUCCESS,
@@ -91,25 +87,24 @@ export const addNewItem = () => async (dispatch, getState) => {
 //   }, 1000);
 // };
 
-export const fetchList = () => dispatch => {
+export const fetchList = () => async (dispatch, _getState, { api }) => {
   dispatch({
     type: FETCH_LIST_REQUEST
   });
 
-  return axios
-    .get(`${BASE_URL}/todos`)
-    .then(({ data }) =>
-      dispatch({
-        type: FETCH_LIST_SUCCESS,
-        payload: data
-      })
-    )
-    .catch(error =>
-      dispatch({
-        type: FETCH_LIST_FAILURE,
-        payload: error
-      })
-    );
+  try {
+    const data = await api.todos.getAll();
+
+    dispatch({
+      type: FETCH_LIST_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: FETCH_LIST_FAILURE,
+      payload: error
+    });
+  }
 };
 
 export const changeItemIsDone = (itemId, isDone) => ({
@@ -149,7 +144,7 @@ const getId = () => `${new Date().getTime()}-${Math.random()}`;
 /**
  * Default state
  */
-const defaultState = {
+export const defaultState = {
   filter: "ALL", // "ALL", "ACTIVE", "DONE"
   newItemText: "",
   isLoading: false,
@@ -276,7 +271,7 @@ export const isLoadingSelector = createSelector(
 
 export const errorMessageSelector = createSelector(
   stateSelector,
-  state => state.error && state.error.message
+  todos => todos.error && todos.error.message
 );
 
 const todosSelector = createSelector(
