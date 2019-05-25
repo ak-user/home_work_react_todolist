@@ -64,4 +64,4 @@ workflows:
             - install
       - deploy:
           requires:
-            - install
+            - lint_and_test
